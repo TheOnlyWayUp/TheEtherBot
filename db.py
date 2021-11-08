@@ -1,7 +1,6 @@
-import aiosqlite
+import aiosqlite, datetime
 from requests import get
 from uuid import UUID
-from datetime import datetime
 
 
 async def returnUserJson(usern: str) -> dict:
@@ -26,9 +25,7 @@ async def returnUserJson(usern: str) -> dict:
 
     info = {
         "userinfo": {"name": req["name"], "id": id},
-        """Returns the user's username, as per proper case and their uuid with dashes."""
         "servers": list(set([server["IP"] for server in [dict(x) for x in found]])),
-        """Returns a unique list of all servers the user has played on."""
         "sorted": [
             dict(sorted(x.items(), key=lambda x: x[1]))
             for x in [
@@ -36,20 +33,22 @@ async def returnUserJson(usern: str) -> dict:
                 for server in [dict(x) for x in found]
             ]
         ],
-        """Returns a list of dicts, each containing a server and the time the user last played on that server, all sorted chronologically."""
         "utctime": [
             {
-                server["IP"]: datetime.utcfromtimestamp(
+                server["IP"]: datetime.datetime.utcfromtimestamp(
                     int(server["TIMESTAMP"] / 1000)
                 ).strftime("%Y-%m-%d %H:%M:%S")
             }
             for server in [dict(x) for x in found]
         ],
-        """Returns a list of dicts, each containing a server and the time the user last played on that server, chronologically sorted, but with the dates in UTC instead of UNIX."""
         "times": [server["TIMESTAMP"] for server in [dict(x) for x in found]],
-        """Returns a list of all the times the user has played on a server (Useful for predicting the next time a user will log on)."""
         "success": True,  # Just added this to make sure the function doesn't break.
     }
+    """Returns the user's username, as per proper case and their uuid with dashes."""
+    """Returns a unique list of all servers the user has played on."""
+    """Returns a list of dicts, each containing a server and the time the user last played on that server, all sorted chronologically."""
+    """Returns a list of dicts, each containing a server and the time the user last played on that server, chronologically sorted, but with the dates in UTC instead of UNIX."""
+    """Returns a list of all the times the user has played on a server (Useful for predicting the next time a user will log on)."""
     await conn.close()
     return info
 
@@ -63,7 +62,7 @@ def avg(dates) -> str:
     Returns:
         string: The average of the list of dates.
     """
-    any_reference_date = datetime(1900, 1, 1)
+    any_reference_date = datetime.datetime(1900, 1, 1)
     x = any_reference_date + sum(
         [date - any_reference_date for date in dates], datetime.timedelta()
     ) / len(dates)

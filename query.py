@@ -1,10 +1,13 @@
 import discord, db, datetime
 from discord.ext import commands
 
+# from discord_slash import SlashCommand, SlashContext
+
 bot = commands.Bot(
     command_prefix="mp!",
     description="Bot for The Ether Project's Discord. This is a testing bot only meant for pulling user information.",
 )
+# slash = SlashCommand(bot)
 
 
 @bot.event
@@ -15,17 +18,21 @@ async def on_ready():
     print("------")
 
 
-@bot.command(help="Get a user's common servers, playtimes and more.")
+# @slash.slash(name="Player", help="Get a user's common servers, playtimes and more.")
+@bot.slash_command(
+    help="Get a user's common servers, playtimes and more.",
+    guild_ids=[903777611082260521],
+)
 async def player(ctx, username):
     try:
-        info = await db.returnServerJson(username)
+        info = await db.returnUserJson(username)
         embedList = []
         em = discord.Embed(
             title=info["userinfo"]["name"],
             description=f"ID - {info['userinfo']['id']}",
             color=0x759851,
         )
-        embedList.append(em)
+        await ctx.respond(embed=em)
         em = discord.Embed(
             title="Common Servers",
             description="A list of servers this user has been seen on, and common servers.",
@@ -66,7 +73,7 @@ async def player(ctx, username):
         for embed in embedList:
             await ctx.send(embed=embed)
     except:
-        await ctx.send("User not found.")
+        await ctx.respond("User not found.")
 
 
 bot.run("OTA0Njg1NjI3NzA5MjA2NTQ5.YX_IJQ.dImIiqyH8QKq-auHbueNfxmeXA4")
