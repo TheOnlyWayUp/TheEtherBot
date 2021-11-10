@@ -1,0 +1,11 @@
+{
+    "bot": {
+        "prefix": "mp!",
+        "description": "Meant for the Ether Project. Manages queries to database from Discord and general administrative tasks."
+    },
+    "embed": {
+        "color": "0x3679ad",
+        "version": "1.0",
+        "footer": "Version 1.0 of TheEtherProject's Bot."
+    }
+}
