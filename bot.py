@@ -98,7 +98,7 @@ class MyNewHelp(commands.MinimalHelpCommand):
             name="Cogs", value=cogs_desc[0 : len(cogs_desc) - 1], inline=False
         )
         await self.get_destination().send(embed=halp, file=file)
-        embed = discord.Embed(title="Detailed Help", color=0x0c9f65)
+        embed = discord.Embed(title="Detailed Help", color=0x0b5394)
         for cog, commands in mapping.items():
            filtered = await self.filter_commands(commands, sort=True)
            command_signatures = [self.get_command_signature(c) for c in filtered]

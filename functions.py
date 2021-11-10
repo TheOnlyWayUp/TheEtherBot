@@ -119,7 +119,6 @@ async def returnServerJson(server: str) -> dict:
     )
     found = list(await found.fetchall())
     found = [dict(info) for info in found][0]
-    print(found)
     info = {
         "ip": {
             "ip": found["IP"],
