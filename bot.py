@@ -50,6 +50,7 @@ class MyNewHelp(commands.MinimalHelpCommand):
         halp = discord.Embed(
             title="The Ether Project | Help",
             description="Uh, yeah don't harass people lol.",
+            color=0x0b5394
         )
         totals = await functions.returnTotals()
         halp.add_field(name="__Servers__", value=totals["servers"], inline=True)
@@ -64,6 +65,7 @@ class MyNewHelp(commands.MinimalHelpCommand):
             name="Cogs", value=cogs_desc[0 : len(cogs_desc) - 1], inline=False
         )
         await self.get_destination().send(embed=halp, file=file)
+        
 
     async def send_command_help(self, command):
         embed = discord.Embed(title=self.get_command_signature(command))
@@ -71,6 +73,41 @@ class MyNewHelp(commands.MinimalHelpCommand):
         alias = command.aliases
         if alias:
             embed.add_field(name="Aliases", value=", ".join(alias), inline=False)
+        channel = self.get_destination()
+        await channel.send(embed=embed)
+        
+    def get_command_signature(self, command):
+        return '%s%s %s' % (self.clean_prefix, command.qualified_name, command.signature)
+
+    async def send_bot_help(self, mapping):
+        halp = discord.Embed(
+            title="The Ether Project | Help",
+            description="Uh, yeah don't harass people lol.",
+            color=0x063158
+        )
+        totals = await functions.returnTotals()
+        halp.add_field(name="__Servers__", value=totals["servers"], inline=True)
+        halp.add_field(name="__Players__", value=totals["players"], inline=True)
+        cogs_desc = ""
+        file = discord.File("logo.png", filename="image.png")
+        halp.set_thumbnail(url="attachment://image.png")
+        halp.set_footer(icon_url="attachment://image.png")
+        for x in bot.cogs:
+            cogs_desc += "{} - {}".format(x, bot.cogs[x].__doc__) + "\n"
+        halp.add_field(
+            name="Cogs", value=cogs_desc[0 : len(cogs_desc) - 1], inline=False
+        )
+        await self.get_destination().send(embed=halp, file=file)
+        embed = discord.Embed(title="Detailed Help", color=0x0c9f65)
+        for cog, commands in mapping.items():
+           filtered = await self.filter_commands(commands, sort=True)
+           command_signatures = [self.get_command_signature(c) for c in filtered]
+           command_help = [c.help for c in filtered]
+           cmds = [f"`{c}`\n```diff\n+{h}```\n" for c, h in zip(command_signatures, command_help)]
+           if command_signatures:
+                cog_name = getattr(cog, "qualified_name", "No Category")
+                embed.add_field(name=cog_name, value="\n".join(cmds), inline=False)
+                
         channel = self.get_destination()
         await channel.send(embed=embed)
 
