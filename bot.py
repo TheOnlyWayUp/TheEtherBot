@@ -119,7 +119,6 @@ bot.load_extension("jishaku")
 
 
 all_categories = [category for category in os.listdir("./cogs")]
-print(all_categories)
 for category in all_categories:
     for filename in os.listdir(f"./cogs/{category}"):
         if filename.endswith(".py"):
