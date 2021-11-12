@@ -54,11 +54,11 @@ async def returnUserJson(usern: str) -> dict:
         "times": [server["TIMESTAMP"] for server in [dict(x) for x in found]],
         "success": True,  # Just added this to make sure the function doesn't break.
     }
-    """Returns the user's username, as per proper case and their uuid with dashes."""
-    """Returns a unique list of all servers the user has played on."""
-    """Returns a list of dicts, each containing a server and the time the user last played on that server, all sorted chronologically."""
-    """Returns a list of dicts, each containing a server and the time the user last played on that server, chronologically sorted, but with the dates in UTC instead of UNIX."""
-    """Returns a list of all the times the user has played on a server (Useful for predicting the next time a user will log on)."""
+    # """Returns the user's username, as per proper case and their uuid with dashes."""
+    # """Returns a unique list of all servers the user has played on."""
+    # """Returns a list of dicts, each containing a server and the time the user last played on that server, all sorted chronologically."""
+    # """Returns a list of dicts, each containing a server and the time the user last played on that server, chronologically sorted, but with the dates in UTC instead of UNIX."""
+    # """Returns a list of all the times the user has played on a server (Useful for predicting the next time a user will log on)."""
     await PlayerCon.close()
     return info
 
