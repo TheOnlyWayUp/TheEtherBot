@@ -23,7 +23,6 @@ async def returnUserJson(usern: str) -> dict:
     Returns:
         dict: A dict containing all instances of the user, predicted future playing times, and more.
     """
-
     req = get("https://api.mojang.com/users/profiles/minecraft/" + usern).json()
     id = str(UUID(req["id"]))
     """Gets the UUID of the user."""
@@ -109,7 +108,6 @@ async def returnServerJson(server: str) -> dict:
     Returns:
         dict: A dict containing basic server information.
     """
-
     ServerCon = await aiosqlite.connect("videlicet.db")
     ServerCon.row_factory = aiosqlite.Row
     found = await ServerCon.execute(
