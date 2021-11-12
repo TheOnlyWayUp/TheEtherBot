@@ -16,16 +16,21 @@ class Player(commands.Cog):
     )
     @commands.cooldown(1, 5, BucketType.user)
     async def player(self, ctx, username):
+        info = ""
         try:
             info = await functions.returnUserJson(username)
+        except:
+            await ctx.send("No user found.")
+            return
+
+        try:
             embedList = []
             em = discord.Embed(
                 title=info["userinfo"]["name"],
                 description=f"ID - {info['userinfo']['id']}",
                 color=0x759851,
             )
-            file = discord.File("logo.png", filename="image.png", file=file)
-            em.set_thumbnail(url="attachment://image.png")
+            em.set_thumbnail(url=f"https://crafatar.com/renders/head/{info['userinfo']['id']}?overlay")
             await ctx.send(embed=em)
             em = discord.Embed(
                 title="Common Servers",
@@ -69,6 +74,16 @@ class Player(commands.Cog):
                 await ctx.send(embed=embed)
         except:
             await ctx.send("User not found.")
+    @commands.command()
+    async def skin(self, ctx, player):
+        try:
+            info = await functions.returnUserJson(player)
+            e = discord.Embed(title=info['userinfo']['name'])
+            e.set_image(url=f"https://crafatar.com/renders/body/{info['userinfo']['id']}?overlay")
+            await ctx.send(embed=e)
+            return
+        except:
+            await ctx.send("No user found.")
 
 
 def setup(bot):

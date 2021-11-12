@@ -116,6 +116,8 @@ async def returnServerJson(server: str) -> dict:
         f"SELECT * FROM BASIC_PINGS WHERE ip LIKE '{server}' ORDER BY timestamp DESC LIMIT 1"
     )
     found = list(await found.fetchall())
+    if found == []:
+        return False
     found = [dict(info) for info in found][0]
     info = {
         "ip": {
