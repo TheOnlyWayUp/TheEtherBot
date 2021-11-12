@@ -180,7 +180,7 @@ async def returnPingJson(server: str) -> dict:
     }
     if stats["players"]["online"] != 0:
         info["players"]["players"] = "\n".join(
-            list(x[0] for x in stats["players"]["sample"])
+            [x[0] for x in stats["players"]["sample"]]
         )
     else:
         info["players"]["players"] = "No one online."
