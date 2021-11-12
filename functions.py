@@ -95,7 +95,7 @@ async def returnHostname(server: str) -> str:
         found = list(await found.fetchall())
         found = [dict(info) for info in found][0]
         return found["DNS"]
-    except Exception as e:
+    except Exception:
         return None
     await DNSCon.close()
 
@@ -134,13 +134,6 @@ async def returnServerJson(server: str) -> dict:
     }
     await ServerCon.close()
     return info
-
-
-def why(a, *, shit_to_do):
-    try:
-        return exec(shit_to_do)
-    except:
-        return None
 
 
 async def returnPingJson(server: str) -> dict:

@@ -3,7 +3,7 @@ from termcolor import cprint
 from discord.ext import commands
 
 bot = commands.Bot(
-    commands.when_mentioned_or("!"),
+    commands.when_mentioned_or("!", "mp!"),
     intents=discord.Intents.all(),
     description="Meant for the Ether Project. Manages queries to database from Discord and general administrative tasks.",
     case_inensitive=True,
