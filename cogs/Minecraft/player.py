@@ -1,7 +1,9 @@
 import discord, functions, datetime
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
+
 file = discord.File("logo.png", filename="image.png")
+
 
 class Player(commands.Cog):
     """All commands related to Player Information."""
@@ -12,7 +14,7 @@ class Player(commands.Cog):
     @commands.command(
         help="Get a user's common servers, playtimes and more.",
         cooldown_after_parsing=True,
-        usage="<player username>"
+        usage="<player username>",
     )
     @commands.cooldown(1, 5, BucketType.user)
     async def player(self, ctx, username):
@@ -30,7 +32,9 @@ class Player(commands.Cog):
                 description=f"ID - {info['userinfo']['id']}",
                 color=0x759851,
             )
-            em.set_thumbnail(url=f"https://crafatar.com/renders/head/{info['userinfo']['id']}?overlay")
+            em.set_thumbnail(
+                url=f"https://crafatar.com/renders/head/{info['userinfo']['id']}?overlay"
+            )
             await ctx.send(embed=em)
             em = discord.Embed(
                 title="Common Servers",
@@ -74,12 +78,15 @@ class Player(commands.Cog):
                 await ctx.send(embed=embed)
         except:
             await ctx.send("User not found.")
+
     @commands.command()
     async def skin(self, ctx, player):
         try:
             info = await functions.returnUserJson(player)
-            e = discord.Embed(title=info['userinfo']['name'])
-            e.set_image(url=f"https://crafatar.com/renders/body/{info['userinfo']['id']}?overlay")
+            e = discord.Embed(title=info["userinfo"]["name"])
+            e.set_image(
+                url=f"https://crafatar.com/renders/body/{info['userinfo']['id']}?overlay"
+            )
             await ctx.send(embed=e)
             return
         except:

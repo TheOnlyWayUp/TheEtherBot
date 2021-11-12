@@ -3,16 +3,18 @@ from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
 file = discord.File("logo.png", filename="image.png")
+
+
 class Server(commands.Cog):
     """All commands related to servers."""
 
     def __init__(self, bot):
         self.bot = bot
-        
 
     @commands.command(
-        help="Finds the hostname, or tries to.", cooldown_after_parsing=True,
-        usage="<ip here>"
+        help="Finds the hostname, or tries to.",
+        cooldown_after_parsing=True,
+        usage="<ip here>",
     )
     @commands.cooldown(1, 5, BucketType.user)
     async def hostname(self, ctx, *, ip):
@@ -29,7 +31,7 @@ class Server(commands.Cog):
     @commands.command(
         help="Return information about a server from the Database.",
         cooldown_after_parsing=True,
-        usage="<ip here>"
+        usage="<ip here>",
     )
     @commands.cooldown(1, 5, BucketType.user)
     async def server(self, ctx, ip):
