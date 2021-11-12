@@ -13,7 +13,7 @@ bot = commands.Bot(
 
 @bot.event
 async def on_ready():
-    r = """
+    r = r"""
  ______ _          ___     _                 __                        
 (_) |  | |        / (_)   | |             /|/  \           o           
     |  | |   _    \__  _|_| |   _  o _     |___/ o _   __    _  __  _|_
