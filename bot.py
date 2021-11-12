@@ -109,7 +109,7 @@ bot.help_command = MyNewHelp()
 bot.load_extension("jishaku")
 
 
-all_categories = [category for category in os.listdir("./cogs")]
+all_categories = list(os.listdir("./cogs"))
 for category in all_categories:
     for filename in os.listdir(f"./cogs/{category}"):
         if filename.endswith(".py"):

@@ -1,7 +1,7 @@
 import os
 
 Counter = 0
-cats = [category for category in os.listdir("./cogs")]
+cats = list(os.listdir("./cogs"))
 
 for cat in cats:
     for filename in os.listdir(f"./cogs/{cat}"):
