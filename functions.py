@@ -184,19 +184,19 @@ async def returnTotals() -> dict:
     info = {}
     ServerCon = await aiosqlite.connect("videlicet.db")
     ServerCon.row_factory = aiosqlite.Row
-    found = await ServerCon.execute(f"SELECT COUNT(*) FROM BASIC_PINGS")
+    found = await ServerCon.execute("SELECT COUNT(*) FROM BASIC_PINGS")
     info["servers"] = dict(list(await found.fetchall())[0])["COUNT(*)"]
     await ServerCon.close()
 
     PlayerCon = await aiosqlite.connect("players.db")
     PlayerCon.row_factory = aiosqlite.Row
-    found = await PlayerCon.execute(f"SELECT COUNT(*) FROM PLAYERS")
+    found = await PlayerCon.execute("SELECT COUNT(*) FROM PLAYERS")
     info["players"] = dict(list(await found.fetchall())[0])["COUNT(*)"]
     await PlayerCon.close()
 
     DNSCon = await aiosqlite.connect("dns.db")
     DNSCon.row_factory = aiosqlite.Row
-    found = await DNSCon.execute(f"SELECT COUNT(*) FROM DNS_TABLE")
+    found = await DNSCon.execute("SELECT COUNT(*) FROM DNS_TABLE")
     info["dns"] = dict(list(await found.fetchall())[0])["COUNT(*)"]
     await DNSCon.close()
 
