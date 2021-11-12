@@ -36,7 +36,7 @@ async def returnUserJson(usern: str) -> dict:
 
     info = {
         "userinfo": {"name": req["name"], "id": id},
-        "servers": list(set([server["IP"] for server in [dict(x) for x in found]])),
+        "servers": list({server["IP"] for server in [dict(x) for x in found]}),
         "sorted": [
             dict(sorted(x.items(), key=lambda x: x[1]))
             for x in [
