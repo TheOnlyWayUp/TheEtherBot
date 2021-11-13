@@ -60,7 +60,7 @@ class Server(commands.Cog):
         usage="<ip here>",
     )
     @commands.cooldown(1, 5, BucketType.user)
-    async def ping(self, ctx, *, ip):
+    async def ping(self, ctx, ip):
         try:
             info = await functions.returnPingJson(ip)
             e = discord.Embed(

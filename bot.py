@@ -28,6 +28,7 @@ async def on_ready():
     print(
         f"""                                             - Made by {pyfade.Fade.Vertical(pyfade.Colors.green_to_yellow, c)}."""
     )
+    await functions.initdb()
 
 
 class MyNewHelp(commands.MinimalHelpCommand):

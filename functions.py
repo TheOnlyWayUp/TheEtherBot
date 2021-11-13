@@ -4,6 +4,14 @@ from uuid import UUID
 from mctools import PINGClient
 
 
+async def initdb():
+    ServerCon = await aiosqlite.connect("videlicet.db")
+    ServerCon.row_factory = aiosqlite.Row
+    PlayerCon = await aiosqlite.connect("players.db")
+    PlayerCon.row_factory = aiosqlite.Row
+    DNSCon = await aiosqlite.connect("dns.db")
+    DNSCon.row_factory = aiosqlite.Row
+
 # with open ("C:\Users\dhanu\OneDrive\Desktop\code\TheEtherProject\config.json") as configF:
 #     config = json.loads(configF)
 
@@ -27,8 +35,7 @@ async def returnUserJson(usern: str) -> dict:
     id = str(UUID(req["id"]))
     """Gets the UUID of the user."""
 
-    PlayerCon = await aiosqlite.connect("players.db")
-    PlayerCon.row_factory = aiosqlite.Row
+    
     found = await PlayerCon.execute(f"SELECT * FROM players WHERE ID LIKE '{id}'")
     found = list(await found.fetchall())
     """Pulls all instances of the user from the database, asynchroneously."""
@@ -59,7 +66,7 @@ async def returnUserJson(usern: str) -> dict:
     # """Returns a list of dicts, each containing a server and the time the user last played on that server, all sorted chronologically."""
     # """Returns a list of dicts, each containing a server and the time the user last played on that server, chronologically sorted, but with the dates in UTC instead of UNIX."""
     # """Returns a list of all the times the user has played on a server (Useful for predicting the next time a user will log on)."""
-    await PlayerCon.close()
+    
     return info
 
 
@@ -85,8 +92,7 @@ async def returnHostname(server: str) -> str:
     Args:
         server (str): The server to get data for.
     """
-    DNSCon = await aiosqlite.connect("dns.db")
-    DNSCon.row_factory = aiosqlite.Row
+
     try:
         found = await DNSCon.execute(
             f"SELECT * FROM DNS_TABLE WHERE ip LIKE '{server}' ORDER BY timestamp DESC LIMIT 1"
@@ -96,7 +102,7 @@ async def returnHostname(server: str) -> str:
         return found["DNS"]
     except Exception:
         return None
-    await DNSCon.close()
+    
 
 
 async def returnServerJson(server: str) -> dict:
@@ -130,12 +136,12 @@ async def returnServerJson(server: str) -> dict:
         "motd": found["MOTD"],
         "success": True,
     }
-    await ServerCon.close()
+    
     return info
 
 
-async def returnPingJson(server: str) -> dict:
-    ping = PINGClient(host=server, timeout=5)
+async def returnPingJson(server: str, port=25565) -> dict:
+    ping = PINGClient(host=server, port=port, timeout=5)
     ping.stop()
     stats = ping.get_stats()
     try:
@@ -180,22 +186,21 @@ async def returnPingJson(server: str) -> dict:
 
 async def returnTotals() -> dict:
     info = {}
-    ServerCon = await aiosqlite.connect("videlicet.db")
-    ServerCon.row_factory = aiosqlite.Row
+    
     found = await ServerCon.execute("SELECT COUNT(*) FROM BASIC_PINGS")
     info["servers"] = dict(list(await found.fetchall())[0])["COUNT(*)"]
-    await ServerCon.close()
+    
 
     PlayerCon = await aiosqlite.connect("players.db")
     PlayerCon.row_factory = aiosqlite.Row
     found = await PlayerCon.execute("SELECT COUNT(*) FROM PLAYERS")
     info["players"] = dict(list(await found.fetchall())[0])["COUNT(*)"]
-    await PlayerCon.close()
+    
 
     DNSCon = await aiosqlite.connect("dns.db")
     DNSCon.row_factory = aiosqlite.Row
     found = await DNSCon.execute("SELECT COUNT(*) FROM DNS_TABLE")
     info["dns"] = dict(list(await found.fetchall())[0])["COUNT(*)"]
-    await DNSCon.close()
+    
 
     return info

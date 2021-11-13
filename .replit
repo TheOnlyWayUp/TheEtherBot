@@ -1,1 +1,1 @@
-run="pip install discord aiosqlite mctools pyfade jishaku alt-discord-flags; python bot.py"
+run="pip install discord aiosqlite mctools pyfade jishaku; python bot.py"
