@@ -132,4 +132,4 @@ for category in all_categories:
     # await paginator.run(embedList)
 
 
-bot.run("OTA0Njg1NjI3NzA5MjA2NTQ5.YX_IJQ.dImIiqyH8QKq-auHbueNfxmeXA4")
+bot.run("OTA0Njg1NjI3NzA5MjA2NTQ5.YX_IJQ.VIAc-NS_oIQT8doPhh11dUKKLHc")
